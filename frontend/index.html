@@ -25,7 +25,8 @@
     </nav>
 
     <div class="employee_list_table container mt-5">
-        <h2 class="mb-4">მომხმარებლის ცხრილი</h2>
+        <h2 class="mb-4">Employee Table</h2>
+
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
                 <tr>
@@ -39,19 +40,15 @@
                     <th>Delete Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+            <tbody id="employeeListBody">
             </tbody>
         </table>
     </div>
+
+    <div class="container mt-3 delete_message" id="message"></div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="./assets/js/main.js"></script>
+<script src="./assets/js/employee_list.js"></script>
+<script src="./assets/js/employee_delete.js"></script>
 </html>

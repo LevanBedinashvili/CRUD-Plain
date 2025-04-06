@@ -23,31 +23,89 @@
             </div>
         </div>
     </nav>
-    <div class="add_employee_form container mt-5">
+
+    <div class="add_employee_form container mt-5 pt-5">
         <h2>Add Employee</h2>
-        <form>
+
+        <!-- Message Container -->
+        <div id="message" class="my-3"></div>
+
+        <form id="employeeForm">
             <div class="mb-3">
                 <label for="first_name" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="first_name" placeholder="Enter first name" required>
+                <input type="text" class="form-control" id="first_name" required>
             </div>
             <div class="mb-3">
                 <label for="last_name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="last_name" placeholder="Enter last name" required>
+                <input type="text" class="form-control" id="last_name" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="example@mail.com" required>
+                <input type="email" class="form-control" id="email" required>
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="phone" placeholder="+995 5XX XXX XXX" required>
+                <input type="tel" class="form-control" id="phone" required>
             </div>
             <div class="mb-3">
                 <label for="position" class="form-label">Position</label>
-                <input type="text" class="form-control" id="position" placeholder="Enter position">
+                <input type="text" class="form-control" id="position" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+
+    <script>
+        const form = document.getElementById('employeeForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const data = {
+                first_name: document.getElementById('first_name').value.trim(),
+                last_name: document.getElementById('last_name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                position: document.getElementById('position').value.trim()
+            };
+
+            fetch('http://localhost:8000/api/index.php', { // replace with actual endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(response => {
+                message.innerHTML = ''; // Clear previous messages
+
+                if (response.errors) {
+                    response.errors.forEach(err => {
+                        const alert = document.createElement('div');
+                        alert.className = 'alert alert-danger';
+                        alert.innerText = err;
+                        message.appendChild(alert);
+                    });
+                } else if (response.success) {
+                    const alert = document.createElement('div');
+                    alert.className = 'alert alert-success';
+                    alert.innerText = response.success;
+                    message.appendChild(alert);
+                    form.reset();
+                } else if (response.error) {
+                    const alert = document.createElement('div');
+                    alert.className = 'alert alert-danger';
+                    alert.innerText = response.error;
+                    message.appendChild(alert);
+                }
+            })
+            .catch(error => {
+                message.innerHTML = '<div class="alert alert-danger">Something went wrong. Please try again.</div>';
+                console.error(error);
+            });
+        });
+    </script>
 </body>
 </html>
