@@ -1,13 +1,9 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../../config/Database.php';
 require_once __DIR__ . '/../models/Employee.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405); 
     echo json_encode(['error' => 'Only DELETE method is allowed']);
     exit;
 }

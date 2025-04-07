@@ -1,0 +1,77 @@
+# Disable directory listing
+Options -Indexes
+
+# Protect .htaccess file itself
+<Files .htaccess>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+# Protect sensitive files
+<FilesMatch "(^#.*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op])|~)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Protect against PHP execution in uploads directory (if you add one)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(/frontend/assets/uploads).*\.(?:php[1-7]?|pht|phtml|phps)$ - [NC,F]
+</IfModule>
+
+# Protect against direct access to PHP files in the api directory
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{THE_REQUEST} ^.*/backend/api/.*\.php [NC]
+  RewriteRule ^ - [F,L]
+</IfModule>
+
+# Force HTTPS
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Set security headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'"
+</IfModule>
+
+# Restrict access to config and models directories
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^backend/config/.* - [F,L]
+  RewriteRule ^backend/models/.* - [F,L]
+</IfModule>
+
+# Route all API requests through a single entry point (optional)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^api/(.*)$ /index.php?endpoint=$1 [QSA,L]
+</IfModule>
+
+# Disable server signature
+ServerSignature Off
+
+# Prevent access to SQL files
+<Files *.sql>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+# PHP security settings
+<IfModule mod_php7.c>
+  php_flag display_errors off
+  php_value error_reporting 0
+  php_flag register_globals off
+  php_flag magic_quotes_gpc off
+  php_flag allow_url_fopen off
+  php_flag expose_php off
+</IfModule>

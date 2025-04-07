@@ -3,10 +3,10 @@ document.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-btn')) {
         const employeeId = e.target.dataset.id;
         const message = document.getElementById('message');
-        message.innerHTML = ''; // clear previous
+        message.innerHTML = ''; 
 
         if (confirm('Are you sure you want to delete this employee?')) {
-            fetch('http://localhost:8000/api/index.php', {
+            fetch('http://localhost:8000/api/employees.php', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'

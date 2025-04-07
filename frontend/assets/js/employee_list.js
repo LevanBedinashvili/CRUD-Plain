@@ -1,6 +1,6 @@
 function fetchEmployeeList() {
     $.ajax({
-        url: 'http://localhost:8000/api/index.php', 
+        url: 'http://localhost:8000/api/employees.php', 
         method: 'GET', 
         contentType: 'application/json',
         success: function(response) {
@@ -14,8 +14,8 @@ function fetchEmployeeList() {
                         <td>${employee.email}</td>
                         <td>${employee.phone}</td>
                         <td>${employee.position}</td>
-                        <td><button class="btn btn-warning btn-sm edit-btn" data-id="${employee.id}">Edit</button></td>
-                        <td><button class="btn btn-danger btn-sm delete-btn" data-id="${employee.id}">Delete</button></td>
+                        <td><button class="btn btn-info btn-sm edit-btn" data-id="${employee.id}">Edit Employee</button></td>
+                        <td><button class="btn btn-danger btn-sm delete-btn" data-id="${employee.id}">Delete Employee</button></td>
                     </tr>`;
                     $('#employeeListBody').append(row);
                 });
@@ -25,3 +25,8 @@ function fetchEmployeeList() {
         }
     });
 }
+
+$(document).on('click', '.edit-btn', function () {
+    const id = $(this).data('id');
+    window.location.href = `edit_employee.html?id=${id}`;
+});

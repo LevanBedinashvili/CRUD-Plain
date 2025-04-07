@@ -1,5 +1,6 @@
 <?php
 class Employee {
+
     private $conn;
     private $table = "employees";
 
@@ -41,7 +42,7 @@ class Employee {
         return $stmt;
     }
 
-    public function usate() {
+    public function update() {
         $query = "UPDATE {$this->table}
                   SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, position = :position
                   WHERE id = :id";
@@ -66,5 +67,21 @@ class Employee {
 
         return $stmt->execute();
     }
+
+
+    public function getSingle($id)
+    {
+        $query = "SELECT * FROM employees WHERE id = :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->rowCount()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        return false;
+    }
 }
+
 ?>
