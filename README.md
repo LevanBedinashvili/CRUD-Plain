@@ -11,7 +11,7 @@ This project is a simple PHP-based CRUD (Create, Read, Update, Delete) API with 
 
 ## Requirements
 
-- Used PHP versuib: 8.2.12
+- Used PHP version: 8.2.12
 - A MySQL database
 - A web browser for testing the frontend
 
