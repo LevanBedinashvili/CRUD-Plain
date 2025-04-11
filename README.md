@@ -1,4 +1,4 @@
-# Simple PHP API CRUD with AJAX Frontend
+# Plain PHP API CRUD + AJAX
 
 This project is a simple PHP-based CRUD (Create, Read, Update, Delete) API with a frontend implemented using AJAX. The backend follows object-oriented programming (OOP) and SOLID principles. The frontend uses AJAX to make asynchronous requests to the API, enabling seamless interaction without page reloads.
 
